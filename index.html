@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Special Letter 💌</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  background:linear-gradient(135deg,#ffd6e8,#e0c3fc);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+}
+
+/* ================= FLOATING PHOTOS ================= */
+.floating-photos{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:0;
+}
+
+.floating-photos img{
+  position:absolute;
+  width:130px;
+  padding:8px 8px 24px;
+  background:white;
+  border-radius:14px;
+  box-shadow:0 12px 25px rgba(0,0,0,.25);
+  opacity:0;
+  animation:
+    floatMove linear infinite,
+    fadePhoto ease-in-out infinite;
+}
+
+@keyframes floatMove{
+  from{ transform:translateY(120vh) rotate(-8deg); }
+  to{ transform:translateY(-180px) rotate(10deg); }
+}
+
+@keyframes fadePhoto{
+  0%,100%{opacity:0;}
+  20%,80%{opacity:.85;}
+}
+
+/* ================= SPARKLE ================= */
+.sparkle{
+  position:fixed;
+  width:6px;
+  height:6px;
+  background:white;
+  border-radius:50%;
+  opacity:.8;
+  animation:sparkleFloat linear infinite;
+  z-index:0;
+}
+
+@keyframes sparkleFloat{
+  from{transform:translateY(100vh);opacity:0;}
+  30%{opacity:.9;}
+  to{transform:translateY(-20vh);opacity:0;}
+}
+
+/* ================= ENVELOPE ================= */
+.envelope{
+  width:300px;
+  height:200px;
+  position:relative;
+  cursor:pointer;
+  animation:float 2s ease-in-out infinite;
+  z-index:5;
+}
+
+.env-body{
+  width:100%;
+  height:100%;
+  background:#ffb6d5;
+  border-radius:14px;
+  position:relative;
+  box-shadow:0 15px 30px rgba(0,0,0,.25);
+}
+
+.flap{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:#ff5fa2;
+  clip-path:polygon(0 0,50% 55%,100% 0);
+  transform-origin:top;
+  transition:.8s;
+}
+
+.letter{
+  position:absolute;
+  bottom:10px;
+  left:50%;
+  transform:translateX(-50%);
+  width:260px;
+  height:150px;
+  background:white;
+  border-radius:10px;
+  padding:18px;
+  text-align:center;
+  transition:.8s;
+}
+
+.envelope.open .flap{transform:rotateX(180deg);}
+.envelope.open .letter{transform:translate(-50%,-130px);}
+
+.tap{
+  margin-top:10px;
+  color:white;
+  font-weight:600;
+  text-align:center;
+}
+
+/* ================= POPUP ================= */
+.popup{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.4);
+  justify-content:center;
+  align-items:center;
+  z-index:10;
+}
+
+.popup-content{
+  background:white;
+  padding:22px;
+  border-radius:18px;
+  text-align:center;
+  animation:pop .4s ease;
+  max-width:360px;
+}
+
+button{
+  margin-top:14px;
+  padding:10px 18px;
+  border:none;
+  border-radius:20px;
+  background:#ff5fa2;
+  color:white;
+  cursor:pointer;
+}
+
+/* ================= CARD ================= */
+.card{
+  display:none;
+  background:white;
+  width:90%;
+  max-width:420px;
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 25px 50px rgba(0,0,0,.18);
+  z-index:5;
+}
+
+.photo img{
+  width:100%;
+  height:260px;
+  object-fit:cover;
+}
+
+.content{
+  padding:22px;
+}
+
+.memory{
+  background:#fff0f6;
+  padding:12px;
+  border-radius:12px;
+  margin-top:16px;
+}
+
+/* ================= ANIMATIONS ================= */
+@keyframes float{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-8px);}
+}
+
+@keyframes pop{
+  from{transform:scale(.7);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+</style>
+</head>
+
+<body>
+
+<!-- FLOATING PHOTOS -->
+<div class="floating-photos">
+  <img src="poto2.jpeg" style="left:5%;animation-duration:24s,7s;">
+  <img src="poto3.jpeg" style="left:22%;animation-duration:28s,8s;">
+  <img src="poto4.jpeg" style="left:45%;animation-duration:26s,7s;">
+  <img src="poto5.jpeg" style="left:65%;animation-duration:30s,9s;">
+  <img src="poto6.jpeg" style="left:85%;animation-duration:25s,6s;">
+</div>
+
+<!-- ENVELOPE -->
+<div class="envelope" id="env" onclick="openEnvelope()">
+  <div class="env-body">
+    <div class="flap"></div>
+    <div class="letter">Ada surat buat loe 💖</div>
+  </div>
+  <div class="tap">Tap to open 💌</div>
+</div>
+
+<!-- POPUP 1 -->
+<div class="popup" id="cakePopup">
+  <div class="popup-content">
+    <h3>🎂 Surprise!</h3>
+    <p>Ada sesuatu buat sipa 🎉</p>
+    <button onclick="showMessagePopup()">Lanjut 👉</button>
+  </div>
+</div>
+
+<!-- POPUP 2 -->
+<div class="popup" id="messagePopup">
+  <div class="popup-content">
+    <h3>🎉 Happy Birthday!</h3>
+    <p>Semoga hari ini penuh senyum, tawa, dan hal manis 💕</p>
+    <button onclick="showCard()">Buka kartu 👉</button>
+  </div>
+</div>
+
+<!-- CARD -->
+<div class="card" id="card">
+  <div class="photo">
+    <img src="WhatsApp Image 2025-12-29 at 2.41.46 PM.jpeg">
+  </div>
+  <div class="content">
+    <h2>Happy Birthday 🎉</h2>
+    <p>
+        Selamat ulang tahun.
+        Hari ini ada yang makin tua nih. Tetap sehat dan bahagia selalu ya,sipa. Semoga tahun ini semua harapan terpendam dikabulkan
+      
+    </p>
+    <div class="memory">
+      <strong>Catatan kecil:</strong><br>
+      bokem nya kurangin
+    </div>
+    <p style="text-align:right;margin-top:16px">— Raffi</p>
+  </div>
+</div>
+
+<!-- AUDIO -->
+<audio id="bgMusic" loop preload="auto" playsinline>
+  <source src="https://drive.google.com/file/d/1aLJTuRxbyC6DFm4QLbRLOo6fa4H6ORsP/view?usp=drive_link" type="audio/wav ">
+</audio>
+
+<script>
+let musicStarted=false;
+
+function openEnvelope(){
+  if(!musicStarted){
+    const m=document.getElementById("bgMusic");
+    m.volume=.6;
+    m.play();
+    musicStarted=true;
+  }
+  document.getElementById("env").classList.add("open");
+  setTimeout(()=>{
+    document.getElementById("cakePopup").style.display="flex";
+  },900);
+}
+
+function showMessagePopup(){
+  document.getElementById("cakePopup").style.display="none";
+  document.getElementById("messagePopup").style.display="flex";
+}
+
+function showCard(){
+  document.getElementById("messagePopup").style.display="none";
+  document.getElementById("env").style.display="none";
+  document.getElementById("card").style.display="block";
+}
+
+/* SPARKLE GENERATOR */
+for(let i=0;i<35;i++){
+  const s=document.createElement("div");
+  s.className="sparkle";
+  s.style.left=Math.random()*100+"vw";
+  s.style.animationDuration=6+Math.random()*6+"s";
+  s.style.animationDelay=Math.random()*5+"s";
+  document.body.appendChild(s);
+}
+</script>
+
+</body>
+</html>
